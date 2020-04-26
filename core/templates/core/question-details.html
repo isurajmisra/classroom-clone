@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %} {%load static%}{% block content %}
+<div class="container">
+    {%if question.q_type == "Multiple choice"%}
+    <h4>{{question.text}}</h4>
+    <ol class="collection">
+        {% for option in question.mcq.all%}
+        <li class="collection-item">
+            {{option.option}}
+        </li>
+        {% endfor %}
+    </ol>
+    {%else%}
+    <h4>{{question.text}}</h4>
+
+
+    {%endif%}
+
+
+
+</div>
+
+{% endblock %}

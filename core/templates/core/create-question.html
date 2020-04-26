@@ -1,0 +1,73 @@
+<div id="create-question" class="modal" style="height: 25rem;">
+    <div class="modal-header">
+        <h5 style="margin:1rem ;">Create Question</h5>
+    </div>
+    <form action="{% url 'create_question' pk=classroom.pk  %}" method="POST">
+        {% csrf_token %}
+        <fieldset id="q-choices">
+            <label for="id_name" class="requiredField">Question</label>
+            <input type="text" name="question" class="textinput textInput form-control" required="">
+            <label for="id_name" class="requiredField">Answer</label>
+            <input type="text" name="answer" class="textinput textInput form-control" required="">
+
+            <input type="hidden" name="mcq" id="hmcq">
+            <input type="hidden" name="count" id="hmcqc">
+        </fieldset>
+        <button class="btn btn-success" style="margin:1rem;"> Create </button>
+    </form>
+
+    <div class="modal-footer">
+        <select id="choice" class="browser-default" style="width: 10rem;" onchange="showChoices(this.value);">
+                <option value="" disabled selected>Question type</option>
+                <option value="Short answer" >Short answer </option>
+                <option value="Multiple choice" > Multiple choice</option>
+            </select>
+    </div>
+    <div class="addb"></div>
+</div>
+<script>
+    function showChoices(value) {
+        if (value === "Multiple choice") {
+            let div = document.querySelector("#create-question")
+            div.style.height = '35rem';
+            let hid = document.querySelector("#hmcq")
+            hid.setAttribute('value', "Multiple choice")
+            let field = document.querySelector("#q-choices");
+            let olist = document.createElement('ol')
+            olist.setAttribute('id', 'olist')
+            let li = document.createElement('li')
+            let optionf = document.createElement("input");
+            optionf.setAttribute('name', '1');
+            li.appendChild(optionf);
+            olist.appendChild(li);
+            field.appendChild(olist);
+            let countm = document.querySelector("#hmcqc");
+            countm.setAttribute('value', 1);
+            let addb = document.createElement("button");
+
+            addb.setAttribute('class', 'btn btn-successs')
+            addb.setAttribute('id', 'add-btn')
+            addb.innerHTML = 'Add';
+            addb.addEventListener('click', addInput);
+            let foot = document.querySelector(".addb");
+            foot.appendChild(addb);
+
+
+        }
+    }
+
+    function addInput() {
+        let countm = document.querySelector("#hmcqc")
+        let cnt = parseInt(countm.value) + 1
+        countm.setAttribute('value', cnt)
+        let olist = document.querySelector("#olist");
+        let li = document.createElement('li')
+        let optionf = document.createElement("input");
+        optionf.setAttribute('name', `${cnt}`)
+        li.appendChild(optionf);
+        olist.appendChild(li);
+
+
+
+    }
+</script>

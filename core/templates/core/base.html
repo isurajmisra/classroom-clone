@@ -1,0 +1,96 @@
+{% load static %} {% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css'%}">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+
+<nav class="light-blue lighten-1" role="navigation">
+
+    <div class="nav-wrapper " style="margin:  0 3rem 0 3rem;">
+        <a href="{% url 'home' %}" class="brand-logo "><i class="material-icons">class</i>Classroom</a>
+        <ul class="right hide-on-med-and-down">
+
+            {% if user.is_authenticated %}
+
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="add-question">
+                <i class="material-icons">add</i>
+            </a>
+
+            <li style="font-size: large; margin-right:1rem;">{{user.username}}</li>
+            {%endif%}
+            <a class="dropdown-trigger btn" href="#" data-target="dropdown2">
+                <i class="material-icons">view_module</i></a>
+
+            <ul id="dropdown2" class="dropdown-content">
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile'%}">Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </ul>
+
+    </div>
+
+</nav>
+
+
+<body>
+    <div id="modal1" class="modal">
+        <form action="{% url 'create_class'%}" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="">Create Class</legend>
+                {{ form|crispy }}
+                <div class="modal-footer">
+                    <button class="btn btn-success"> Create</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+
+
+    {% if messages %}
+
+    <div class="container">
+        {% for message in messages %} {%if message.tags == "success" %}
+        <div id="card-alert" class="card green">
+            {%elif message.tags == "error" %}
+            <div id="card-alert" class="card red">
+                {%elif message.tags == "info" %}
+                <div id="card-alert" class="card light-blue">
+                    {%endif%}
+                    <div class="card-content white-text">
+                        <p>{{message}}</p>
+                    </div>
+                </div> {%endfor%}
+            </div>
+            {%endif%}
+            <div class="main-container">
+                {% block content %} {% endblock %}
+            </div>
+
+
+
+
+            <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+            <script type="text/javascript" src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>

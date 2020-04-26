@@ -1,0 +1,12 @@
+<div class="container">
+    <ol class="collection">
+        {% for question in questions %}
+        <li class="collection-item ">
+            <a href="{% url 'question-details' pk=question.pk%}">
+                {{question.text}}
+            </a>
+            <p>{{question.created_on}}</p>
+        </li>
+        {%endfor%}
+    </ol>
+</div>

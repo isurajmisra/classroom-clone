@@ -1,0 +1,35 @@
+.main-container {
+    margin: 2rem;
+    margin-top: 1rem;
+}
+
+.collection {
+    border: none;
+}
+
+#login {
+    margin: 1rem;
+    font-size: x-large;
+}
+
+#add-btn {
+    margin: 1rem;
+}
+
+small {
+    font-size: 100%;
+    margin: 1rem;
+}
+
+.container-child {
+    margin: 3rem;
+    margin-bottom: 0rem;
+}
+
+.container-child1 {
+    margin: 3rem;
+}
+
+#student-answer {
+    border-bottom: 0;
+}

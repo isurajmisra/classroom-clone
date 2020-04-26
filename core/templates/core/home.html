@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %} {%load static %}{% block content %}{%if classrooms%}
+<h5 style="margin-left:1rem;">Classroom Created By You</h5> <br>
+<div class="ml-2" style="display: flex;">
+    {% for class in classrooms %}
+    <div class="card" style="width: 18rem;margin-left:1rem;">
+        <div class="card-body">
+            <img src="{% static 'img/default1.jpg' %}" class="card-img-top" alt={{class.name}} width="100%">
+        </div>
+        <p style="margin: 1rem;">Join Code : {{class.c_code}}</p>
+        <a href="{% url 'classroom' pk=class.pk %}">
+            <div class="card-body">
+                <h5 style="margin: 1rem;" class="card-title">{{class.name}}</h5>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{%endif%}
+<br> {%if joined_class%}
+<h5 style="margin-left:1rem;">Classroom Joined By You</h5> <br>
+<div class="ml-2" style="display: flex;">
+    {% for class in joined_class %}
+    <div class="card" style="width: 18rem;margin-left:1rem;" style="display: flex;">
+        <img src="{% static 'img/default1.jpg' %}" class="card-img-top" alt={{class.classroom.name}}>
+        <p style="margin: 1rem;">Join Code : {{class.classroom.c_code}}</p>
+        <a href="{% url 'classroom' pk=class.classroom.pk %}">
+            <div class="card-body">
+                <h5 style="margin: 1rem;" class="card-title">{{class.classroom.name}}</h5>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{%endif%} {%if not classrooms and not joined_class %}
+<div style="margin: 4rem;display:flex;">
+    <div>
+        <img src="{% static 'img/class.jpg'%}" alt="class">
+    </div>
+    <div>
+        <h4>Make teaching more productive, collaborative,<br> and meaningful </h4>
+        <p>With Classroom, educators can create classes, take a session, and see students performance in one place. Students can join any class and start learning.
+        </p>
+    </div>
+</div>
+
+{%endif%} {% endblock %}

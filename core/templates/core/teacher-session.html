@@ -1,0 +1,157 @@
+{% load static %}
+<div class="container">
+    {%if students %}
+    <h5>Students who joined the session:</h5>
+
+    <div style="display: flex;">
+        {%for s in students%}
+        <p style="margin-right: 1rem;">{{s.user.username}}</p>
+        {%endfor%}
+    </div>
+    <hr> {%endif%} {%if q_short or q_mcq %}
+    <div>
+        <h4>Dashboard:</h4>
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Student Name</th>
+                    {%for q in q_list%}
+                    <th>Q{{q}}</th>
+                    {%endfor%}
+                    <th>Total Answer</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {%for k,v in ans_data.items %}
+                <tr>
+
+                    <td>{{k}}</td>
+                    {%for q,a in v.items %} {%if q == 'total' %}
+                    <td>{{a}}/{{total_question_count}}</td>
+                    {%elif a == True %}
+                    <td><i class="material-icons">check</i></td>
+
+                    {%elif a == False %}
+                    <td><i class="material-icons">close</i></td>
+
+                    {%else%}
+                    <td>NA</td>
+                    {%endif%} {%endfor%}
+
+
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td><b>Total Answer</b> </td> {%for k,v in correct_answers.items %}
+
+                    <td>{{v}}/{{joined_user_count}}</td>
+                    {%endfor%}
+                </tr>
+
+
+
+            </tbody>
+        </table>
+    </div>
+    {%endif%}
+    <div style="display: flex;">
+        <div>
+            {%if toppers%}
+            <h4>Best Performers : </h4>
+            <ol class="collection">
+                {% for u in toppers %}
+                <li class="collection-item avatar" style="width: 20rem;">
+                    <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                    <span class="title">Name:{{u.username}}</span> <br> {%for k,v in ans_data.items %} {%if u.username == k %}
+                    <span class="title">Correct Answer:{{v.total}}</span> {%endif%} {%endfor%}
+                </li>
+                {%endfor%}
+            </ol>{%endif%}</div>
+        <div>{%if lasts%}
+            <h4>Need Improvement : </h4>
+            <ol class="collection">
+                {% for u in lasts %}
+                <li class="collection-item avatar" style="width: 20rem;">
+                    <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                    <span class="title">Name:{{u.username}}</span> <br> {%for k,v in ans_data.items %} {%if u.username == k %}
+                    <span class="title">Correct Answer:{{v.total}}</span> {%endif%} {%endfor%}
+                </li>
+                {%endfor%}
+            </ol>
+            {%endif%}</div>
+        <div>{%if hard_ques%}
+            <h4>Hard Questions : </h4>
+            <ol class="collection">
+                {% for q in hard_ques %}
+                <li class="collection-item" style="width: 20rem;">
+                    <span class="title">Question:{{q.pk}}</span> <br>
+                    <span class="title">Incorrect Responses:{{q.count}}</span>
+                </li>
+                {%endfor%}
+            </ol>
+            {%endif%}</div>
+    </div>
+    <h4>Questions Asked:</h4>
+    {% for q in q_short %}
+    <div style="border: solid rgb(146, 142, 142) .01rem;">
+        <h5 style="margin-left: 2rem;">{{q.pk}}:{{q.text}}</h5>
+        {%for ques,v in stats_c.items %} {% if q.text == ques %}
+        <p style="margin-left: 2rem;color: green;">Correct: {{v}}</p>
+        {%endif%} {%endfor%}{%for ques,v in stats_ic.items %} {% if q.text == ques %}
+        <p style="margin-left: 2rem;color: red;">Incorrect: {{v}}</p>
+        {%endif%} {%endfor%}
+
+        <ol class="collection">{%for ans in answers %}{%if q == ans.question%}
+            <li class="collection-item avatar" style="width: 20rem;">
+                <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                <span class="title">Name : {{ans.user.username}}</span> <br>
+                <p>
+                    <span> Answer : {{ans.answer}} </span>
+                </p>{%if ans.is_correct == True %}
+                <span class="title" style="color: green;"> Correct</span> {%else%}
+                <span class="title" style="color: red;"> Incorrect</span> {%endif%}
+
+
+            </li>
+            {%endif%} {%endfor%}
+        </ol>
+    </div><br> {%endfor%}{% for q in q_mcq %}
+    <div style="border: solid rgb(146, 142, 142) .01rem;">
+        <h5 style="margin-left: 2rem;">{{q.pk}}:{{q.text}}</h5>
+        {%for ques,v in stats_c.items %} {% if q.text == ques %}
+        <p style="margin-left: 2rem;color: green;">Correct: {{v}}</p>
+        {%endif%} {%endfor%}{%for ques,v in stats_ic.items %} {% if q.text == ques %}
+        <p style="margin-left: 2rem; color: red;">Incorrect: {{v}}</p>
+        {%endif%} {%endfor%}
+        <ol class="collection">{%for ans in answers%}{%if q == ans.question%}
+            <li class="collection-item avatar" style="width: 20rem;">
+                <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                <span class="title">Name : {{ans.user.username}}</span> <br>
+                <p>
+                    <span> Answer : {{ans.answer}} </span>
+                </p> {%if ans.is_correct == True %}
+                <span class="title" style="color: green;">Correct</span> {%else%}
+                <span class="title" style="color: red;">Incorrect</span> {%endif%}
+            </li>
+            {%endif%} {%endfor%}
+        </ol>
+    </div><br> {%endfor%}{%if students%}
+    <div>
+        <h4>Students Marks:</h4>
+        <ul class="collection">
+            {%for k,v in ans_data.items %}
+            <li class="collection-item avatar" style="width: 20rem;">
+                <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                <span class="title">Name:{{k}}</span> <br>
+                <span class="title">Correct Answer:{{v.total}}</span>
+            </li>
+            {%endfor%}
+        </ul>
+
+    </div>
+    {%endif%}
+
+
+</div>

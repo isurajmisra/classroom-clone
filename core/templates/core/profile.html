@@ -1,0 +1,21 @@
+{%extends 'core/base.html' %}{% load static %}{% block content %}
+<div class="container">
+    <img class="circle  responsive-img  dude-pic" src="{% static 'img/user.jpg'%}" alt="">
+    <h3>{{request.user.username}}</h3>
+    <p>{{request.user.email}}</p>
+    <br> {%if sessions%}
+    <div>
+        <h4>Sessions Joined by You:</h4>
+        <ul class="collection">
+            {%for session in sessions%}
+            <li class="collection-item ">
+                <a href="{% url 'session' pk=session.class_session.pk%}"><span class="title">{{session.class_session.classroom.name}} Session</span></a>
+                <p>Created on:{{session.class_session.created_on}}
+                </p>
+            </li>
+            {%endfor%}
+        </ul>
+    </div>
+
+</div>
+{%endif%} {% endblock %}

@@ -1,0 +1,55 @@
+{% load static %}
+<div class="container">
+    <h4>Questions : </h4>
+    {% for q in q_short %}
+    <div class="container-child">
+        <h5>* {{q.text}}</h5>
+        {%if q.text in s_answers %} {% for a in user_ans %} {%if a.question == q %}
+
+        <b>Your Answer : {{a.answer}}<br>
+    </b> {%if a.is_correct == True %}
+        <b style="color: green;"> Correct
+    </b> {%else%}
+        <b style="color: red;"> Incorrect
+    <> {%endif%} {%endif%} {%endfor%}{%else%}
+        <form action="{% url 'session_answers' pk=class_session.pk qk=q.pk %}" method="POST">
+            {% csrf_token %}
+            <label id="shortL" for="id_name" class="requiredField">Answer</label>
+            <input id="shortAns" type="text" name="answer" class="textinput textInput form-control" required="">
+            <button id="short" class="btn btn-success">Submit</button>
+        </form>
+        {%endif%}</div> {% endfor%} {% for q in q_mcq %}
+    <div class="container-child1">
+        <h5>* {{q.text}}</h5>
+        {%if q.text in s_answers %}
+        <ul class="collection" style="list-style-position: inside;">
+            {% for option in q.mcq.all%}
+            <li class="collection-item " id="student-answer">
+                <span class="title">{{option.option}}</span>
+            </li>
+            {%endfor%}
+        </ul> {% for a in user_ans %} {%if a.question == q %}
+
+        <b>Your Answer : {{a.answer}}<br>
+    </b> {%if a.is_correct == True %}
+        <b style="color: green;"> Correct
+    </b> {%else%}
+        <b style="color: red;"> Incorrect
+    </b> {%endif%} {%endif%} {%endfor%} {%else%}
+
+        <form action="{% url 'session_answers' pk=class_session.pk qk=q.pk %}" method="POST">
+            {% csrf_token %} {% for option in q.mcq.all%}
+            <p>
+                <label>
+            <input name="group1" type="radio" value='{{option.option}}' />
+            <span >{{option.option}}</span>
+            </label>
+            </p>
+
+            {% endfor %}
+
+            <button class="btn btn-success">Submit</button>
+
+        </form>
+        {%endif%}</div> {% endfor%}
+</div>

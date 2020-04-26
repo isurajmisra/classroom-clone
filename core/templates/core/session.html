@@ -1,0 +1,1 @@
+{%extends 'core/base.html' %}{% load static %} {% block content %} {% if request.user == class_session.user%} {%include 'core/teacher-session.html'%} {%else%} {%include 'core/student-session.html'%} {% endif%} {% endblock %}

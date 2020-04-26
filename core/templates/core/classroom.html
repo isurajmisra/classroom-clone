@@ -1,0 +1,118 @@
+{% extends 'core/base.html' %} {% load static %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                {% if request.user.pk == teacher.pk %}
+                <li class="tab col s3"><a href="#test1">Sessions</a></li>{%endif%}
+                <li class="tab col s3"><a class="active" href="#test2">Classwork</a></li>
+                <!-- <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li> -->
+                <li class="tab col s3"><a href="#test4">People</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <h4>{{classroom.name}}</h4>
+
+        {% if request.user.pk == teacher.pk %}
+        <h5>Joined as Teacher</h5>
+        <div id="test1" class="col s12">
+            <div style="height: 20rem; margin-bottom:2rem;">
+                <img src="{% static 'img/default.jpg' %}" alt="" width="100%" height="100%">
+            </div>
+
+            <a class="waves-effect waves-light btn  " href="{% url 'create-session' pk=classroom.pk%}">
+               Create New Session</i></a>
+            <div>
+
+                <ul class="collection">
+                    {%for session in sessions%}
+                    <li class="collection-item ">
+                        <a href="{% url 'session' pk=session.pk%}"><span class="title">Session:{{session.pk}}</span></a>
+                        <p>Created on:{{session.created_on}}
+                        </p>
+                    </li>
+                    {%endfor%}
+                </ul>
+            </div>
+
+        </div>
+        {%endif%}
+        <div id="test2" class="col s12">
+            {% if request.user.pk == teacher.pk %}
+            <a class="waves-effect waves-light btn modal-trigger" href="#create-question">
+                <i>Add Question</i></a> {%include 'core/create-question.html'%}
+            <br> {% include 'core/questions.html' %}{%else%}
+            <h5>Joined as Student </h5> {%if all_sessions%}
+            <h5>Total Sessions:</h5>
+            <ol class="collection">
+                {%for s in all_sessions %}
+                <li class="collection-item ">
+                    <a href="{% url 'session' pk=s.pk%}">
+                       Session:{{s.classroom.name}}.{{s.pk}}
+                    </a>
+                </li>
+                {%endfor%}
+            </ol>
+            {%else%}
+            <h5>No sessions have been created yet.</h5>
+            {%endif%} {%endif%}
+        </div>
+        <div id="test4" class="col s12">
+            {% if request.user.pk == teacher.pk %}
+            <h5>Invite People:
+                <a class="waves-effect waves-light btn modal-trigger" href="#invite">
+                    <i class="material-icons">add</i>{%endif%}
+                </a>
+            </h5>
+            <div>
+                Teacher: <br>
+                <ul class="collection">
+
+                    <li class="collection-item avatar">
+                        <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                        <span class="title">{{teacher.username}}</span>
+                        <p>{{teacher.email}}
+                        </p>
+                    </li>
+                </ul>
+                {%if people %} Students: <br>
+                <ul class="collection">
+                    {% for p in people %}
+                    <li class="collection-item avatar">
+                        <img src="{% static 'img/user.jpg'%}" alt="" class="circle">
+                        <span class="title">{{p.username}}</span>
+                        <p>{{p.email}}
+                        </p>
+                    </li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+            </div>
+
+
+            <div id="invite" class="modal">
+                <form action="{% url 'invite' pk=classroom.pk %}" method="POST">
+                    {% csrf_token %}
+                    <fieldset>
+                        <label for="id_name" class=" requiredField">Email</label>
+                        <input type="text" name="email" maxlength="100" class="textinput textInput form-control" required="" id="id_name">
+                        <div class="modal-footer">
+                            <button class="btn btn-success"> Send </button>
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    let addq = document.querySelector("#add-question");
+    addq.style.display = 'none'
+</script>
+
+{% endblock %}
