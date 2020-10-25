@@ -25,7 +25,7 @@ SECRET_KEY = '0yko!+c$s7!c*e#-pu39a--_am-vstn_$ak2a-%gmwv0dm3f@n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','*.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','classroom2.herokuapp.com']
 # AUTH_USER_MODEL = 'core.User'
 
 # Application definition
@@ -125,7 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # X_API_KEY = '571b38be-3688-11ea-bf09-0a3a4955442e'
 LOGIN_REDIRECT_URL = 'home'
