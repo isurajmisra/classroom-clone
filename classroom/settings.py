@@ -25,7 +25,7 @@ SECRET_KEY = '0yko!+c$s7!c*e#-pu39a--_am-vstn_$ak2a-%gmwv0dm3f@n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','*.herokuapp.com']
 # AUTH_USER_MODEL = 'core.User'
 
 # Application definition
@@ -82,12 +82,8 @@ WSGI_APPLICATION = 'classroom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'classroom',
-        'USER':'postgres',
-        'PASSWORD':'1234',
-        'HOST':'127.0.0.1',
-        'PORT':'5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME':BASE_DIR / 'db.sqlite3',
     }
 }
 
