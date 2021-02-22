@@ -15,4 +15,3 @@ __pycache__/*
 # Logs
 logs
 *.log
-db.sqlite3
