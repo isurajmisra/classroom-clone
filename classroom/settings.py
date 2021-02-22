@@ -26,7 +26,7 @@ SECRET_KEY = '0yko!+c$s7!c*e#-pu39a--_am-vstn_$ak2a-%gmwv0dm3f@n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','classroom2.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','tutus-classroom.herokuapp.com']
 # AUTH_USER_MODEL = 'core.User'
 
 # Application definition
@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'classroom.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR/'db.sqlite3',
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': str(BASE_DIR / 'db.sqlite3'),
+        }
     }
-}
 
 
 # Password validation
